@@ -1,23 +1,30 @@
 class List(object):
     def __init__(self):
         self.count = 0
-        self.current = None
         self.first = None
         self.last = None
+        self.iter_object = None
 
     def __iter__(self):
-        self.current = self.first
+        self.iter_object = self.iterate()
         return self
 
     def __next__(self):
-        if self.current is None:
-            raise StopIteration
-        value = self.current.value
-        self.current = self.current.next
-        return value
+        element = next(self.iter_object)
+        return element.value
 
     def __len__(self):
         return self.count
+
+    def __str__(self):
+        return str([x for x in self])
+
+    def iterate(self):
+        current = self.first
+        while current is not None:
+            yield current
+            current = current.next
+        raise StopIteration
 
     def init_empty(self, value):
         if self.last is None and self.first is None:
@@ -30,13 +37,34 @@ class List(object):
     def __delitem__(self, key):
         if key >= self.count:
             raise ValueError
+        self.count -= 1
+        if key == 0:
+            self.first = self.first.next
+            return
+
         current = self.first
         previous = self.first
-        for _ in range(key-1):
-            previous = self.current
-            self.current = self.current.next
+        for _ in range(key):
+            previous = current
+            current = current.next
         previous.next = current.next
 
+    def remove(self, value):
+        self.count -= 1
+        if value == self.first.value:
+            self.first = self.first.next
+            return
+
+        current = self.first
+        previous = self.first
+        for _ in range(len(self)-1):
+            previous = current
+            current = current.next
+            if value == current.value:
+                previous.next = current.next
+                return
+        self.count += 1
+        raise ValueError
 
     def append(self, value):
         self.count += 1
@@ -61,9 +89,8 @@ class Element(object):
 l = List()
 l.append("loool")
 l.append("get a house")
-l.append("get a house")
-del l[1]
-l.append("get a house")
-for x in l:
-    print(x)
+l.append("get a house2")
+print(l)
+l.remove("get a house")
+print(l)
 
