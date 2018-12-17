@@ -57,7 +57,7 @@ class List(object):
 
         current = self.first
         previous = self.first
-        for _ in range(len(self)-1):
+        for _ in range(len(self) - 1):
             previous = current
             current = current.next
             if value == current.value:
@@ -104,17 +104,10 @@ class SortedList(List):
                 previous.next = element
                 element.next = current
 
-    def merge_real(self, other):
-        my_iter = self.iterate()
-        other_iter = other.iterate()
-        my_ele = next(my_iter)
-        other_ele = next(other_iter)
-        if my_ele.value > other_ele.value:
-            pass
-
-    def merge_lol(self, other):
+    def merge(self, other):
         for value in other:
             self.add(value)
+
 
 sortedlist = SortedList()
 sortedlist.add(20)
@@ -126,6 +119,8 @@ print(sortedlist)
 otherlist = SortedList()
 otherlist.add(66)
 otherlist.add(34)
+otherlist.add(340)
 print(otherlist)
-sortedlist.merge_lol(otherlist)
+sortedlist.merge(otherlist)
 print(sortedlist)
+npphghripgrhhHiioeihipddiosoeiigogeieiogiiwi
